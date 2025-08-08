@@ -3,11 +3,12 @@ build/
 cmake-build-*/
 *build*/
 
-# Output directories
+#  directories
 output/
 bin/
 Debug/
 Release/
+includes/
 
 # Visual Studio files
 *.vcxproj
@@ -38,6 +39,7 @@ Makefile
 *.tmp
 *.temp
 scratch.txt
+GoodVibes/
 
 # IDE files
 .vs/

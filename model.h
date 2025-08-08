@@ -8,12 +8,12 @@
 #include <iostream>
 
 
-class Model 
+class Model
 {
     public:
         // model data
         std::vector<Mesh> meshes;
-        
+
         Model(const char *path, bool gamma = false): gammaCorrection(gamma)
         {
             loadModel(path);
@@ -30,6 +30,6 @@ class Model
         void loadModel(std::string path);
         void processNode(aiNode *node, const aiScene *scene);
         Mesh processMesh(aiMesh *mesh, const aiScene *scene);
-        std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, 
+        std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type,
                                              std::string typeName);
 };
