@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <filesystem>
 
-// We'll use stb_image_write for PNG output
+
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "includes/glfw-3.4/glfw-3.4/deps/stb_image_write.h"
 
