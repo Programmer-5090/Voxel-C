@@ -195,7 +195,7 @@ void ChunkMesh::buildMesh(const VoxelChunk &chunk)
 
 void ChunkMesh::clear()
 {
-    // Don't shrink vectors, just clear them to avoid reallocations
+    // just clear them to avoid reallocations
     vertices.clear();
     indices.clear();
 
