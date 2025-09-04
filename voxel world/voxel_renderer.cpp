@@ -106,7 +106,7 @@ void VoxelRenderer::workerLoop()
             chunk_to_mesh = chunk_pair.second;
         }
 
-        // std::cout << "Processing chunk at distance: " << chunk_distance << std::endl; // Debug - reduced spam
+        // std::cout << "Processing chunk at distance: " << chunk_distance << std::endl;
 
         // Only process if chunk still needs meshing (avoid redundant work)
         if (!chunk_to_mesh->needsMeshRebuild())
@@ -188,7 +188,7 @@ void VoxelRenderer::update(const Camera &camera)
         return;
     }
 
-    // Update animation time (assuming 60 FPS, increment by 1/60 second)
+    // Update animation time (increment by 1/60 second)
     water_animation_time += 1.0f / 60.0f;
 
     // Update world based on camera position
@@ -230,7 +230,7 @@ void VoxelRenderer::update(const Camera &camera)
     }
 
     // Sort by distance - NEAREST FIRST (ascending order)
-    std::sort(chunks_needing_mesh.begin(), chunks_needing_mesh.end()); // This is correct
+    std::sort(chunks_needing_mesh.begin(), chunks_needing_mesh.end());
 
     // Queue nearest chunks first
     int current_queue_size = 0;
@@ -244,16 +244,15 @@ void VoxelRenderer::update(const Camera &camera)
             {
                 chunk->setMeshing(true);
                 chunks_to_mesh_queue.push({distance, chunk}); // Push distance + chunk pair
-                // std::cout << "Queued chunk at distance: " << distance << std::endl; // Debug - reduced spam
+                // std::cout << "Queued chunk at distance: " << distance << std::endl;
             }
         }
     }
     condition.notify_all();
 
     // --- Upload finished meshes on the main thread ---
-    // Even more conservative upload budget
     auto frame_start = std::chrono::high_resolution_clock::now();
-    const float max_upload_time_ms = 1.0f; // Reduced from 2ms to 1ms
+    const float max_upload_time_ms = 1.0f;
     int meshes_uploaded_this_frame = 0;
 
     std::unique_lock<std::mutex> lock(queue_mutex);
@@ -286,7 +285,7 @@ void VoxelRenderer::update(const Camera &camera)
         auto upload_end = std::chrono::high_resolution_clock::now();
         float upload_time = std::chrono::duration<float, std::milli>(upload_end - upload_start).count();
 
-        // Check if we've used up our time budget
+        // Check if we've used up time budget
         auto current_time = std::chrono::high_resolution_clock::now();
         float total_time = std::chrono::duration<float, std::milli>(current_time - frame_start).count();
 
@@ -410,7 +409,6 @@ void VoxelRenderer::render(const Camera &camera, const glm::mat4 &projection)
     {
         if (chunk->mesh && chunk->mesh->isUploaded() && !chunk->mesh->isEmpty())
         {
-            // For now, assume all chunks might have transparent blocks
             // TODO: Add hasTransparentBlocks() method to VoxelChunk for optimization
             if (!isChunkInFrustum(chunk_pos, camera, projection))
                 continue;
@@ -595,8 +593,8 @@ bool VoxelRenderer::loadTextures()
         // Special handling for water texture (animated strip)
         if (texture_files[i] == "water_still.png")
         {
-            // Water texture is typically a vertical strip of frames
-            int frame_count = height / width; // Assume square frames
+            // Water texture is a vertical strip of frames
+            int frame_count = height / width;
             std::cout << "Water texture has " << frame_count << " frames" << std::endl;
 
             // Extract each frame
