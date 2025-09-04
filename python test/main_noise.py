@@ -52,8 +52,8 @@ class terrainCell:
         pygame.draw.rect(screen, self.color, rect, border_radius=0)
 
 terrain: List[List[terrainCell]] = []
-scale: int = 2  # Increased for better performance
-noiseScale: float = 0.01  # Reduced for larger features
+scale: int = 2
+noiseScale: float = 0.01
 mapHeight : int = 0
 mapWidth : int = 0
 
@@ -104,8 +104,6 @@ def set_up():
     mapWidth = int(width/scale)
     mapHeight = int(height/scale)
     
-    # No need to pre-generate terrain - we'll generate it dynamically
-
 def main():
     global camera_x, camera_y, dragging, last_mouse_pos
     set_up()
